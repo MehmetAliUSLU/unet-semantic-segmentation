@@ -13,7 +13,33 @@ inference script for arbitrary images.
 
 ## Results
 
-<!-- RESULTS -->
+Trained from scratch (no pretrained weights) for 20 epochs at 256×256 on the
+3,680 `trainval` images and evaluated on the 3,669 `test` images, using a single
+RTX 4060 Laptop GPU (~45 s/epoch, 7.8M parameters).
+
+| Metric (test set)  | Value     |
+|--------------------|-----------|
+| **Mean IoU**       | **0.764** |
+| Mean Dice          | 0.858     |
+| Pixel accuracy     | 0.911     |
+| IoU – pet          | 0.831     |
+| IoU – background   | 0.909     |
+| IoU – border       | 0.554     |
+
+The *border* class is a thin band of a few pixels around each animal, which makes it
+much harder than the other two classes. That's typical for this dataset.
+
+> Note: in the first row of the prediction grid above, the ground-truth trimap is
+> empty, which is a known annotation error in Oxford-IIIT Pet. The model still segments
+> the dog correctly.
+
+![training curves](assets/curves.png)
+
+Reproduce with:
+
+```bash
+python train.py --dataset pets --epochs 20 --batch-size 16 --out runs/pets
+```
 
 ## Features
 
